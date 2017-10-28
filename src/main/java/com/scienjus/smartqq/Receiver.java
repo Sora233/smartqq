@@ -16,7 +16,7 @@ import java.util.*;
  */
 
 public class Receiver {
-
+    static long a;
     private static List<Friend> friendList = new ArrayList<>();                 //好友列表
     private static List<Group> groupList = new ArrayList<>();                   //群列表
     private static List<Discuss> discussList = new ArrayList<>();               //讨论组列表
@@ -50,6 +50,11 @@ public class Receiver {
                 return;
             }
             try {
+            	if(msg.getContent().equals("@xuan roll")) {
+            		System.out.println("进入roll程序！");
+            		int x=(int)(Math.random()*100);
+            		client.sendMessageToGroup(a,"@"+getGroupUserNick(msg)+" 你的roll数是："+x);
+            	}
                 System.out.println("[" + getTime() + "] [" + getGroupName(msg) + "] " + getGroupUserNick(msg) + "：" + msg.getContent());
             } catch (Exception e) {
                 e.printStackTrace();
@@ -208,6 +213,7 @@ public class Receiver {
             friendFromID.put(friend.getUserId(), friend);
         }
         for (Group group : groupList) {                     //建立群id到群映射
+        	a=group.getId();
             groupFromID.put(group.getId(), group);
         }
         for (Discuss discuss : discussList) {               //建立讨论组id到讨论组映射
